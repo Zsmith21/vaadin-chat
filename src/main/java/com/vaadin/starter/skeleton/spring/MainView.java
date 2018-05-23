@@ -1,26 +1,30 @@
 package com.vaadin.starter.skeleton.spring;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.InitialPageSettings;
+import com.vaadin.flow.server.PageConfigurator;
 
-/**
- * The main view contains a simple label element and a template element.
- */
-@HtmlImport("styles/shared-styles.html")
 @Route("")
-public class MainView extends VerticalLayout {
+public class MainView extends VerticalLayout implements PageConfigurator {
 
-    public MainView(@Autowired ExampleTemplate template) {
-        // This is just a simple label created via Elements API
-        Button button = new Button("Click me",
-                event -> template.setValue("Clicked!"));
-        // This is a simple template example
-        add(button, template);
-        setClassName("main-layout");
-    }
+  public MainView() {
+    var button = new Button("Click me");
+    button.addClickListener(click -> add(new Span("You Clicked!")));
+    add(button);
+  }
 
+  @Override
+  public void configurePage(InitialPageSettings settings) {
+    settings.addLink(InitialPageSettings.Position.PREPEND, "manifest", "manifest.webmanifest");
+    settings.addLink(InitialPageSettings.Position.PREPEND, "icon", "favicon.png");
+    settings.addInlineWithContents(
+        "window.addEventListener('load', function() { " +
+            "  if('serviceWorker' in navigator) {" +
+            "    navigator.serviceWorker.register('./sw.js');" +
+            "  }" +
+            "});", InitialPageSettings.WrapMode.JAVASCRIPT);
+  }
 }
