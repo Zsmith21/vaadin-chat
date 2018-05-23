@@ -1,12 +1,12 @@
 const version = 1;
 const cacheName = 'vaadin-cache-v' + version;
-const staticAssets[
-  './offline-page.html',
-  './frontpage/images/icons/icon-512x512.png'
+const staticAssets = [
+  './offline.html',
+  './frontend/images/icon.png'
 ];
 
 self.addEventListener('install', evt => {
-  e.waitUntil(updateCache());
+  evt.waitUntil(updateCache());
 });
 
 
@@ -43,9 +43,10 @@ async function cacheFirst(request) {
 
 async function networkFirst(request) {
   try {
-    return fetch(request);
+    const fresh = await fetch(request);
+    return fresh;
   } catch {
     const cache = await caches.open(cacheName);
-    return cache.match('./offline-page.html');
+    return await cache.match('./offline.html');
   }
 }
