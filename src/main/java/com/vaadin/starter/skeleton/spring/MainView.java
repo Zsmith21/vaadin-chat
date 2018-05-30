@@ -8,7 +8,6 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
 
-@Push
 @Route("")
 @StyleSheet("styles/styles.css")
 public class MainView extends VerticalLayout implements PageConfigurator {
