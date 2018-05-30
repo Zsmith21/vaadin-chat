@@ -1,5 +1,6 @@
 package com.vaadin.starter.skeleton.spring;
 
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.H1;
@@ -61,7 +62,7 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     });
 
     usernameLayout.add(usernameField, startButton);
-    Shortcut.add(usernameLayout, Shortcut.KeyCodes.ENTER, startButton::click);
+    Shortcut.add(usernameLayout, Key.ENTER, startButton::click);
     add(usernameLayout);
   }
 
@@ -93,7 +94,7 @@ public class MainView extends VerticalLayout implements PageConfigurator {
 
     messageField.setPlaceholder("Type something ...");
     messageField.focus();
-    Shortcut.add(messageField, Shortcut.KeyCodes.ENTER, sendButton::click);
+    Shortcut.add(messageField, Key.ENTER, sendButton::click);
 
     sendButton.getElement().getThemeList().add("primary");
     sendButton.addClickListener(click -> {
