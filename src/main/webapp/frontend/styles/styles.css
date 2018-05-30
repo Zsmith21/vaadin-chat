@@ -1,0 +1,14 @@
+vaadin-text-field {
+  height: 100%;
+}
+
+.main-view h1 {
+    width: 100%;
+    margin: 0;
+    padding: 16px;
+}
+
+.message-list {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}

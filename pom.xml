@@ -84,11 +84,23 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-core</artifactId>
+            <version>3.1.7.RELEASE</version>
+        </dependency>
+
         <!-- Added to provide logging output as Flow uses -->
         <!-- the unbound SLF4J no-operation (NOP) logger implementation -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.vaadin.marcus</groupId>
+            <artifactId>shortcut</artifactId>
+            <version>0.1.0</version>
         </dependency>
     </dependencies>
 
