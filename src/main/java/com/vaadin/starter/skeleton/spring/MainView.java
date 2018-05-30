@@ -2,10 +2,12 @@ package com.vaadin.starter.skeleton.spring;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.BodySize;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -19,6 +21,8 @@ import reactor.core.publisher.UnicastProcessor;
 @Push
 @Route("")
 @StyleSheet("styles/styles.css")
+@JavaScript("src/ios-keyboard-fix.js")
+@BodySize()
 public class MainView extends VerticalLayout implements PageConfigurator {
 
   private final UnicastProcessor<ChatMessage> messagePublisher;
@@ -52,7 +56,6 @@ public class MainView extends VerticalLayout implements PageConfigurator {
   private void askUsername() {
     var usernameLayout = new HorizontalLayout();
     var usernameField = new TextField();
-    usernameField.focus();
     usernameField.setValue("Vaadin User");
 
     var startButton = new Button("Start chatting", click -> {
@@ -93,7 +96,6 @@ public class MainView extends VerticalLayout implements PageConfigurator {
 
 
     messageField.setPlaceholder("Type something ...");
-    messageField.focus();
     Shortcut.add(messageField, Key.ENTER, sendButton::click);
 
     sendButton.getElement().getThemeList().add("primary");
@@ -101,7 +103,6 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     if(messageField.getValue().isEmpty()) return;
       messagePublisher.onNext(new ChatMessage(username, messageField.getValue()));
       messageField.clear();
-      messageField.focus();
     });
 
     return inputLayout;
