@@ -1,110 +1,23 @@
 package com.vaadin.starter.skeleton.spring;
 
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.Push;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
-import org.vaadin.marcus.shortcut.Shortcut;
-import reactor.core.Disposable;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.UnicastProcessor;
 
 @Push
 @Route("")
 @StyleSheet("styles/styles.css")
 public class MainView extends VerticalLayout implements PageConfigurator {
 
-  private final UnicastProcessor<ChatMessage> messagePublisher;
 
-  private MessageList messageList;
-  private Flux<ChatMessage> messages;
-  private String username;
-  private Disposable messageSubscription;
-
-  public MainView(Flux<ChatMessage> messages,
-                  UnicastProcessor<ChatMessage> messagePublisher) {
-    this.messages = messages;
-    this.messagePublisher = messagePublisher;
-
-    addClassName("main-view");
-    setSizeFull();
-    setDefaultHorizontalComponentAlignment(Alignment.CENTER);
-
-    var header = new H1("Vaadin Chat");
-    header.getElement().getThemeList().add("dark");
-    add(header);
-
-
-    if (username == null) {
-      askUsername();
-    } else {
-      showChat();
-    }
+  public MainView() {
+    add(new H1("Hello world"));
   }
 
-  private void askUsername() {
-    var usernameLayout = new HorizontalLayout();
-    var usernameField = new TextField();
-    usernameField.focus();
-    usernameField.setValue("Vaadin User");
-
-    var startButton = new Button("Start chatting", click -> {
-      username = usernameField.getValue();
-      remove(usernameLayout);
-      showChat();
-    });
-
-    usernameLayout.add(usernameField, startButton);
-    Shortcut.add(usernameLayout, Shortcut.KeyCodes.ENTER, startButton::click);
-    add(usernameLayout);
-  }
-
-  private void showChat() {
-    messageList = new MessageList();
-    add(messageList, createInputLayout());
-    expand(messageList);
-
-    messageSubscription = messages.subscribe(message ->
-        getUI().ifPresent(ui ->
-            ui.access(() -> {
-              messageList.add(new MessageLayout(message));
-            })));
-
-    getUI().ifPresent(ui -> ui.addDetachListener(event -> {
-      messageSubscription.dispose();
-    }));
-  }
-
-  private HorizontalLayout createInputLayout() {
-    var inputLayout = new HorizontalLayout();
-    var messageField = new TextField();
-    var sendButton = new Button("Send");
-
-    inputLayout.setWidth("100%");
-    inputLayout.add(messageField, sendButton);
-    inputLayout.expand(messageField);
-
-
-    messageField.setPlaceholder("Type something ...");
-    messageField.focus();
-    Shortcut.add(messageField, Shortcut.KeyCodes.ENTER, sendButton::click);
-
-    sendButton.getElement().getThemeList().add("primary");
-    sendButton.addClickListener(click -> {
-    if(messageField.getValue().isEmpty()) return;
-      messagePublisher.onNext(new ChatMessage(username, messageField.getValue()));
-      messageField.clear();
-      messageField.focus();
-    });
-
-    return inputLayout;
-  }
 
   @Override
   public void configurePage(InitialPageSettings settings) {

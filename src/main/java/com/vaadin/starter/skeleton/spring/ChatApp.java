@@ -20,17 +20,6 @@ public class ChatApp extends SpringBootServletInitializer {
         SpringApplication.run(ChatApp.class, args);
     }
 
-    @Bean
-    public UnicastProcessor<ChatMessage> messagePublisher(){
-        return UnicastProcessor.create();
-    }
-
-    @Bean
-    public Flux<ChatMessage> messages(UnicastProcessor<ChatMessage> eventPublisher) {
-        return eventPublisher
-            .replay(20)
-            .autoConnect();
-    }
 
     @Override
     protected SpringApplicationBuilder configure(
