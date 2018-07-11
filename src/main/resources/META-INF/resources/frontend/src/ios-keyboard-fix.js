@@ -16,7 +16,6 @@
   }
 
   function compensateForOnScreenKeyboard() {
-
     // Compensate for iOS on-screen-keyboard.
     // The keyboard transition/animation takes around 100-300ms
     setTimeout(() => {

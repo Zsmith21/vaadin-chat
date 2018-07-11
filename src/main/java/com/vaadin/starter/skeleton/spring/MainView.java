@@ -32,8 +32,7 @@ public class MainView extends VerticalLayout implements PageConfigurator {
   private String username;
   private Disposable messageSubscription;
 
-  public MainView(Flux<ChatMessage> messages,
-                  UnicastProcessor<ChatMessage> messagePublisher) {
+  public MainView(Flux<ChatMessage> messages, UnicastProcessor<ChatMessage> messagePublisher) {
     this.messages = messages;
     this.messagePublisher = messagePublisher;
 
@@ -44,7 +43,6 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     var header = new H1("Vaadin Chat");
     header.getElement().getThemeList().add("dark");
     add(header);
-
 
     if (username == null) {
       askUsername();
@@ -57,6 +55,7 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     var usernameLayout = new HorizontalLayout();
     var usernameField = new TextField();
     usernameField.setValue("Vaadin User");
+    usernameField.focus();
 
     var startButton = new Button("Start chatting", click -> {
       username = usernameField.getValue();
@@ -74,11 +73,9 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     add(messageList, createInputLayout());
     expand(messageList);
 
-    messageSubscription = messages.subscribe(message ->
-        getUI().ifPresent(ui ->
-            ui.access(() -> {
-              messageList.add(new MessageLayout(message));
-            })));
+    messageSubscription = messages.subscribe(message -> getUI().ifPresent(ui -> ui.access(() -> {
+      messageList.add(new MessageLayout(message));
+    })));
 
     getUI().ifPresent(ui -> ui.addDetachListener(event -> {
       messageSubscription.dispose();
@@ -94,16 +91,18 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     inputLayout.add(messageField, sendButton);
     inputLayout.expand(messageField);
 
-
     messageField.setPlaceholder("Type something ...");
     Shortcut.add(messageField, Key.ENTER, sendButton::click);
 
     sendButton.getElement().getThemeList().add("primary");
     sendButton.addClickListener(click -> {
-    if(messageField.getValue().isEmpty()) return;
+      if (messageField.getValue().isEmpty())
+        return;
       messagePublisher.onNext(new ChatMessage(username, messageField.getValue()));
       messageField.clear();
+      messageField.focus();
     });
+    messageField.focus();
 
     return inputLayout;
   }
@@ -113,11 +112,9 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     settings.addLink(InitialPageSettings.Position.PREPEND, "manifest", "manifest.webmanifest");
     settings.addLink(InitialPageSettings.Position.PREPEND, "icon", "favicon.png");
     settings.addInlineWithContents(
-        "window.addEventListener('load', function() { " +
-            "  if('serviceWorker' in navigator) {" +
-            "    navigator.serviceWorker.register('./sw.js');" +
-            "  }" +
-            "});", InitialPageSettings.WrapMode.JAVASCRIPT);
+        "window.addEventListener('load', function() { " + "  if('serviceWorker' in navigator) {"
+            + "    navigator.serviceWorker.register('./sw.js');" + "  }" + "});",
+        InitialPageSettings.WrapMode.JAVASCRIPT);
   }
 
 }
