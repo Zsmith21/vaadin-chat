@@ -44,11 +44,7 @@ public class MainView extends VerticalLayout implements PageConfigurator {
     header.getElement().getThemeList().add("dark");
     add(header);
 
-    if (username == null) {
-      askUsername();
-    } else {
-      showChat();
-    }
+    askUsername();
   }
 
   private void askUsername() {
