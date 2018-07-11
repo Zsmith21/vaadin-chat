@@ -1,18 +1,11 @@
-# Project Base for Vaadin Flow and Spring Boot
+# Vaadin 10 chat demo
 
-This project can be used as a starting point to create your own Vaadin Flow application with Spring Boot.
-It contains all the necessary configuration and some placeholder files to get you started.
+A small demo app using:
 
-The best way to use it by via vaadin.com/start - you can get only the necessary parts and choose the package naming you want to use.
+- Vaadin 10 with Flow
+- Spring Boot 2
+- Project Reactor 3
 
-Import the project to the IDE of your choosing as a Maven project. 
+# Running
 
-Run application using
-`mvn spring-boot:run`
-
-Open http://localhost:8080/ in browser
-
-
-For documentation on using Vaadin Flow and Spring, visit [vaadin.com/docs](https://vaadin.com/docs/v10/flow/spring/tutorial-spring-basic.html)
-
-For more information on Vaadin Flow, visit https://vaadin.com/flow.
+`mvn clean package spring-boot:run`
