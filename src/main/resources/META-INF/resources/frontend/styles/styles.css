@@ -1,9 +1,9 @@
 html, body {
-  height: 100%;
+    height: 100%;
 }
 
 vaadin-text-field {
-  height: 100%;
+    height: 100%;
 }
 
 .main-view h1 {
@@ -13,6 +13,7 @@ vaadin-text-field {
 }
 
 .message-list {
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    height: -webkit-fill-available;
 }
